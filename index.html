@@ -386,22 +386,6 @@
 			} catch (e) { /* игнорируем */ }
 		})();
 
-		// 7. Ловушка на открытие DevTools по размеру окна
-		//    (работает не всегда, но создаёт неудобства)
-		(function() {
-			const threshold = 160;
-			setInterval(function() {
-				const wDiff = window.outerWidth - window.innerWidth;
-				const hDiff = window.outerHeight - window.innerHeight;
-				if (wDiff > threshold || hDiff > threshold) {
-					document.body.innerHTML =
-						'<div style="color:#ff4757;font-family:Montserrat,sans-serif;' +
-						'text-align:center;padding:5rem;font-size:1.5rem;">' +
-						'🛡️ Откройте глаза, закройте DevTools.</div>';
-				}
-			}, 1000);
-		})();
-
 		// ===== РАСШИФРОВКА ПОЧТЫ (Base64) =====
 		(function() {
 			// obuchayushchiysya@zashchishchayushchiysya.ru
