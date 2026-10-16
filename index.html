@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Школа русского языка «Защищающийся Иностранец»</title>
 
-    <!-- ФАВИКОН: корректный SVG с щитом -->
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🛡️%3C/text%3E%3C/svg%3E">
 
-    <!-- Шрифт и иконки (исправленные полные адреса) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
@@ -24,11 +22,7 @@
             --text-muted: #a4b0be;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Montserrat', sans-serif;
@@ -54,6 +48,35 @@
             position: relative;
         }
 
+        /* ===== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА ===== */
+        /* position: absolute внутри header -> уезжает со скроллом */
+        .lang-toggle {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 100;
+            background: rgba(255, 71, 87, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(255, 71, 87, 0.4);
+            padding: 0.5rem 1.1rem;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(6px);
+        }
+
+        .lang-toggle:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 71, 87, 0.4);
+        }
+
         .shield-icon {
             font-size: 5rem;
             color: var(--accent);
@@ -67,27 +90,27 @@
             100% { transform: scale(1); }
         }
 
-		h1 {
-		    font-size: 3.2rem;
-		    font-weight: 900;
-		    text-transform: uppercase;
-		    letter-spacing: -1px;
-		    line-height: 1.15;
-		    margin-bottom: 1rem;
-		    max-width: 1100px;
-		    padding: 0 1rem;
-		    background: linear-gradient(45deg, #fff, var(--text-muted));
-		    -webkit-background-clip: text;
-		    -webkit-text-fill-color: transparent;
-		    background-clip: text;
-		}
-		
-		h1 span {
-		    display: inline-block;
-		    color: var(--accent);
-		    -webkit-text-fill-color: var(--accent);
-		    background: none;
-		}
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+            max-width: 1100px;
+            padding: 0 1rem;
+            background: linear-gradient(45deg, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h1 span.accent {
+            display: inline-block;
+            color: var(--accent);
+            -webkit-text-fill-color: var(--accent);
+            background: none;
+        }
 
         .subtitle {
             font-size: 1.5rem;
@@ -122,14 +145,14 @@
             margin: 0 auto;
         }
 
-		h2 {
-		    text-align: center;
-		    font-size: 2.5rem;
-		    font-weight: 900;
-		    text-transform: uppercase;
-		    letter-spacing: 1px;
-		    margin-bottom: 3rem;
-		}
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 3rem;
+        }
 
         .grid {
             display: grid;
@@ -214,88 +237,97 @@
             border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-		@media (max-width: 768px) {
-		    h1 { font-size: 1.8rem; }
-		    .subtitle { font-size: 1rem; }
-		    .grid { grid-template-columns: 1fr; }
-		    .cta-btn { font-size: 1rem; padding: 0.9rem 1.8rem; }
-		}
-		
-		@media (max-width: 480px) {
-		    h1 { font-size: 1.4rem; }
-		    .subtitle { font-size: 0.95rem; }
-		}
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .subtitle { font-size: 1rem; }
+            .grid { grid-template-columns: 1fr; }
+            .cta-btn { font-size: 1rem; padding: 0.9rem 1.8rem; }
+            .lang-toggle { top: 1rem; right: 1rem; font-size: 0.8rem; padding: 0.4rem 0.9rem; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.4rem; }
+            .subtitle { font-size: 0.95rem; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- Главный экран -->
     <header>
+        <!-- Переключатель языка (position: absolute -> уходит со скроллом) -->
+        <button class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
+
         <div class="shield-icon">
             <i class="fa-solid fa-shield-halved"></i>
         </div>
+
         <h1>
-		    Школа русского языка<br>
-		    <span>«Защищающийся иностранец»</span>
-		</h1>
-        <p class="subtitle">Устал ломать челюсть о русскую фонетику? Мы не научим тебя говорить «Привет», мы научим тебя выживать в очередях и паспортных столах!</p>
-        <a href="#levels" class="cta-btn">Пройти тест на вывих языка</a>
+            <span data-i18n="h1_line1">Школа русского языка</span><br>
+            <span class="accent" data-i18n="h1_line2">«Защищающийся иностранец»</span>
+        </h1>
+
+        <p class="subtitle" data-i18n="subtitle">Устал ломать челюсть о русскую фонетику? Мы не научим тебя говорить «Привет», мы научим тебя выживать в очередях и паспортных столах!</p>
+
+        <a href="#levels" class="cta-btn" data-i18n="cta">Пройти тест на вывих языка</a>
     </header>
 
+    <!-- Секция с боссами русского языка -->
     <section class="levels" id="levels">
-        <h2>Наши Учебные Уровни</h2>
+        <h2 data-i18n="h2_levels">Наши Учебные Уровни</h2>
         <div class="grid">
 
             <div class="card">
                 <div>
-                    <div class="card-badge">Уровень: Новичок «Боец»</div>
+                    <div class="card-badge" data-i18n="card1_badge">Уровень: Новичок «Боец»</div>
                     <div class="word-russian">Защищающийся</div>
                     <div class="word-translit">zashchishchayushchiysya</div>
-                    <p class="word-desc">Наше базовое слово. Если ты смог набрать этот домен в браузере с первого раза без Т9, мы выдадим тебе сертификат выжившего и нальем кваса.</p>
+                    <p class="word-desc" data-i18n="card1_desc">Наше базовое слово. Если ты смог набрать этот домен в браузере с первого раза без Т9, мы выдадим тебе сертификат выжившего и нальем кваса.</p>
                 </div>
             </div>
 
             <div class="card">
                 <div>
-                    <div class="card-badge">Уровень: Средний «Бухгалтер»</div>
+                    <div class="card-badge" data-i18n="card2_badge">Уровень: Средний «Бухгалтер»</div>
                     <div class="word-russian">Высчитывающийся</div>
                     <div class="word-translit">vyshchityvayushchiysya</div>
-                    <p class="word-desc">Комбо-удар по твоим связкам. Буква «Ы» заставит тебя страдать, а идущие подряд «Ч» и «Щ» звучат так, будто у тебя закипел радиатор.</p>
+                    <p class="word-desc" data-i18n="card2_desc">Комбо-удар по твоим связкам. Буква «Ы» заставит тебя страдать, а идущие подряд «Ч» и «Щ» звучат так, будто у тебя закипел радиатор.</p>
                 </div>
             </div>
 
             <div class="card">
                 <div>
-                    <div class="card-badge">Уровень: Хардкор «Профессор»</div>
+                    <div class="card-badge" data-i18n="card3_badge">Уровень: Хардкор «Профессор»</div>
                     <div class="word-russian">Достопримечательность</div>
                     <div class="word-translit">dostoprimechatelnost</div>
-                    <p class="word-desc">Ужас любого туриста в Москве. Пока ты договоришь это слово до конца, Красная площадь уже закроется на перерыв.</p>
+                    <p class="word-desc" data-i18n="card3_desc">Ужас любого туриста в Москве. Пока ты договоришь это слово до конца, Красная площадь уже закроется на перерыв.</p>
                 </div>
             </div>
 
             <div class="card">
                 <div>
-                    <div class="card-badge">Уровень: Босс «Аспирант»</div>
+                    <div class="card-badge" data-i18n="card4_badge">Уровень: Босс «Аспирант»</div>
                     <div class="word-russian">Перевыперезащищающийся</div>
                     <div class="word-translit">perevyperezashchishchayushchiysya</div>
-                    <p class="word-desc">Слово для тех, кто пошел защищать диплом во второй раз, но по дороге встретил филологов. 33 буквы чистой латинской боли.</p>
+                    <p class="word-desc" data-i18n="card4_desc">Слово для тех, кто пошел защищать диплом во второй раз, но по дороге встретил филологов. 33 буквы чистой латинской боли.</p>
                 </div>
             </div>
 
             <div class="card">
                 <div>
-                    <div class="card-badge">Уровень: Киборг «Медик»</div>
+                    <div class="card-badge" data-i18n="card5_badge">Уровень: Киборг «Медик»</div>
                     <div class="word-russian">Рентгеноэлектрокардиографического</div>
                     <div class="word-translit">rentgenoelektrokardiograficheskogo</div>
-                    <p class="word-desc">Слово-тест на объем легких. Читается как заклинание вызова сатаны. Требует три литра воды после прочтения.</p>
+                    <p class="word-desc" data-i18n="card5_desc">Слово-тест на объем легких. Читается как заклинание вызова сатаны. Требует три литра воды после прочтения.</p>
                 </div>
             </div>
 
             <div class="card">
                 <div>
-                    <div class="card-badge">Уровень: Финал «Безумие»</div>
+                    <div class="card-badge" data-i18n="card6_badge">Уровень: Финал «Безумие»</div>
                     <div class="word-russian">Превысокомногорассматривающий</div>
                     <div class="word-translit">prevysokomnogorassmatrivayushchiy</div>
-                    <p class="word-desc">Официальный чемпион Книги рекордов Гиннесса. Если ты скажешь это без запинки, тебя автоматически сделают гражданином РФ и выдадут шапку-ушанку.</p>
+                    <p class="word-desc" data-i18n="card6_desc">Официальный чемпион Книги рекордов Гиннесса. Если ты скажешь это без запинки, тебя автоматически сделают гражданином РФ и выдадут шапку-ушанку.</p>
                 </div>
             </div>
 
@@ -303,102 +335,116 @@
     </section>
 
     <footer>
-        <p style="margin-bottom: 1rem;">Появились вопросы? Жалобы? Вывихнули челюсть? Пишите нашей службе поддержки:</p>
-        <!-- Почта вставляется сюда через JS после расшифровки -->
+        <p style="margin-bottom: 1rem;" data-i18n="footer_text">Появились вопросы? Жалобы? Вывихнули челюсть? Пишите нашей службе поддержки:</p>
         <div class="no-copy" id="secure-mail"></div>
-        <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.6;">&copy; 2026 Школа «Защищающийся Иностранец». Все челюсти застрахованы.</p>
+        <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.6;" data-i18n="footer_copy">&copy; 2026 Школа «Защищающийся Иностранец». Все челюсти застрахованы.</p>
     </footer>
 
-	<script>
-		// ===== ЗАЩИТА ОТ КОПИРОВАНИЯ / DEVTOOLS =====
+    <script>
+        // ===== ЗАЩИТА ОТ КОПИРОВАНИЯ =====
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
 
-		// 1. Правая кнопка мыши
-		document.addEventListener('contextmenu', function(e) {
-			e.preventDefault();
-			return false;
-		});
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); return false; }
+            const blockedCtrl = ['u','U','s','S','c','C','a','A','p','P','Г','г','Ы','ы','С','с','Ф','ф','З','з'];
+            if (e.ctrlKey && !e.shiftKey && blockedCtrl.includes(e.key)) { e.preventDefault(); return false; }
+            const blockedCtrlShift = ['i','I','j','J','c','C','k','K','Ш','ш','О','о','С','с','Л','л'];
+            if (e.ctrlKey && e.shiftKey && blockedCtrlShift.includes(e.key)) { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.shiftKey && (e.key === 'Escape' || e.key === 'Esc')) { e.preventDefault(); return false; }
+        });
 
-		// 2. Горячие клавиши
-		document.addEventListener('keydown', function(e) {
-			// F12 — DevTools
-			if (e.key === 'F12' || e.keyCode === 123) {
-				e.preventDefault();
-				return false;
-			}
+        document.addEventListener('selectstart', function(e) { e.preventDefault(); return false; });
+        document.addEventListener('dragstart', function(e) { e.preventDefault(); return false; });
+        document.addEventListener('mousedown', function(e) { if (e.button === 1) { e.preventDefault(); return false; } });
 
-			// Ctrl+U (исходник), Ctrl+S (сохранить), Ctrl+C (копировать),
-			// Ctrl+A (выделить), Ctrl+P (печать)
-			const blockedCtrl = ['u', 'U', 's', 'S', 'c', 'C', 'a', 'A', 'p', 'P',
-								 'Г', 'г', 'Ы', 'ы', 'С', 'с', 'Ф', 'ф', 'З', 'з'];
-			if (e.ctrlKey && !e.shiftKey && blockedCtrl.includes(e.key)) {
-				e.preventDefault();
-				return false;
-			}
+        // ===== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА =====
+        (function() {
+            const translations = {
+                ru: {
+                    h1_line1: 'Школа русского языка',
+                    h1_line2: '«Защищающийся иностранец»',
+                    subtitle: 'Устал ломать челюсть о русскую фонетику? Мы не научим тебя говорить «Привет», мы научим тебя выживать в очередях и паспортных столах!',
+                    cta: 'Пройти тест на вывих языка',
+                    h2_levels: 'Наши Учебные Уровни',
+                    card1_badge: 'Уровень: Новичок «Боец»',
+                    card1_desc: 'Наше базовое слово. Если ты смог набрать этот домен в браузере с первого раза без Т9, мы выдадим тебе сертификат выжившего и нальем кваса.',
+                    card2_badge: 'Уровень: Средний «Бухгалтер»',
+                    card2_desc: 'Комбо-удар по твоим связкам. Буква «Ы» заставит тебя страдать, а идущие подряд «Ч» и «Щ» звучат так, будто у тебя закипел радиатор.',
+                    card3_badge: 'Уровень: Хардкор «Профессор»',
+                    card3_desc: 'Ужас любого туриста в Москве. Пока ты договоришь это слово до конца, Красная площадь уже закроется на перерыв.',
+                    card4_badge: 'Уровень: Босс «Аспирант»',
+                    card4_desc: 'Слово для тех, кто пошел защищать диплом во второй раз, но по дороге встретил филологов. 33 буквы чистой латинской боли.',
+                    card5_badge: 'Уровень: Киборг «Медик»',
+                    card5_desc: 'Слово-тест на объем легких. Читается как заклинание вызова сатаны. Требует три литра воды после прочтения.',
+                    card6_badge: 'Уровень: Финал «Безумие»',
+                    card6_desc: 'Официальный чемпион Книги рекордов Гиннесса. Если ты скажешь это без запинки, тебя автоматически сделают гражданином РФ и выдадут шапку-ушанку.',
+                    footer_text: 'Появились вопросы? Жалобы? Вывихнули челюсть? Пишите нашей службе поддержки:',
+                    footer_copy: '© 2026 Школа «Защищающийся Иностранец». Все челюсти застрахованы.'
+                },
+                en: {
+                    h1_line1: 'School of Russian Language',
+                    h1_line2: '«Defending Foreigner»',
+                    subtitle: 'Tired of breaking your jaw on Russian phonetics? We won\'t teach you to say "Privet" — we\'ll teach you to survive in queues and passport offices!',
+                    cta: 'Take the Tongue-Dislocation Test',
+                    h2_levels: 'Our Learning Levels',
+                    card1_badge: 'Level: Beginner «Fighter»',
+                    card1_desc: 'Our basic word. If you managed to type this domain into your browser on the first try without autocorrect, we\'ll hand you a survivor certificate and pour you some kvass.',
+                    card2_badge: 'Level: Intermediate «Accountant»',
+                    card2_desc: 'A combo hit to your vocal cords. The letter «Ы» will make you suffer, and the consecutive «Ч» and «Щ» sound like your radiator is boiling.',
+                    card3_badge: 'Level: Hardcore «Professor»',
+                    card3_desc: 'The nightmare of every tourist in Moscow. By the time you finish saying this word, Red Square will already be closed for lunch.',
+                    card4_badge: 'Level: Boss «PhD Student»',
+                    card4_desc: 'The word for those defending their thesis for the second time, but ran into philologists along the way. 33 letters of pure Latin pain.',
+                    card5_badge: 'Level: Cyborg «Medic»',
+                    card5_desc: 'A lung-volume test of a word. Sounds like a satanic summoning spell. Requires three liters of water afterwards.',
+                    card6_badge: 'Level: Final «Madness»',
+                    card6_desc: 'The official Guinness World Records champion. Say it without stumbling and you\'ll automatically become a Russian citizen and be issued an ushanka hat.',
+                    footer_text: 'Got questions? Complaints? Dislocated your jaw? Write to our support:',
+                    footer_copy: '© 2026 School «Defending Foreigner». All jaws are insured.'
+                }
+            };
 
-			// Ctrl+Shift+I / J / C / K (инструменты разработчика)
-			const blockedCtrlShift = ['i', 'I', 'j', 'J', 'c', 'C', 'k', 'K',
-									  'Ш', 'ш', 'О', 'о', 'С', 'с', 'Л', 'л'];
-			if (e.ctrlKey && e.shiftKey && blockedCtrlShift.includes(e.key)) {
-				e.preventDefault();
-				return false;
-			}
+            const titles = {
+                ru: 'Школа русского языка «Защищающийся Иностранец»',
+                en: 'School of Russian Language «Defending Foreigner»'
+            };
 
-			// Ctrl+Shift+Esc — диспетчер задач (не всегда перехватывается)
-			if (e.ctrlKey && e.shiftKey && (e.key === 'Escape' || e.key === 'Esc')) {
-				e.preventDefault();
-				return false;
-			}
-		});
+            let lang = localStorage.getItem('lang') || 'ru';
 
-		// 3. Блокировка выделения мышью (на случай если CSS не сработал)
-		document.addEventListener('selectstart', function(e) {
-			e.preventDefault();
-			return false;
-		});
+            function applyLang(l) {
+                document.querySelectorAll('[data-i18n]').forEach(function(el) {
+                    const key = el.getAttribute('data-i18n');
+                    if (translations[l][key] !== undefined) {
+                        el.textContent = translations[l][key];
+                    }
+                });
+                document.documentElement.lang = l;
+                document.title = titles[l];
+                document.getElementById('langToggle').textContent = (l === 'ru') ? 'EN' : 'RU';
+            }
 
-		// 4. Блокировка drag-and-drop (перетаскивание текста/картинок)
-		document.addEventListener('dragstart', function(e) {
-			e.preventDefault();
-			return false;
-		});
+            applyLang(lang);
 
-		// 5. Блокировка средней кнопки мыши (вставка из буфера в Linux)
-		document.addEventListener('mousedown', function(e) {
-			if (e.button === 1) {
-				e.preventDefault();
-				return false;
-			}
-		});
+            document.getElementById('langToggle').addEventListener('click', function() {
+                lang = (lang === 'ru') ? 'en' : 'ru';
+                localStorage.setItem('lang', lang);
+                applyLang(lang);
+            });
+        })();
 
-		// 6. Отключаем console-методы (усложняет отладку через консоль)
-		//    ВНИМАНИЕ: не даёт 100% защиты — консоль можно открыть до загрузки скрипта.
-		(function() {
-			const noop = function() {};
-			try {
-				const methods = ['log', 'warn', 'error', 'info', 'debug', 'table', 'dir', 'trace'];
-				methods.forEach(function(m) {
-					// Сохраняем оригинал, но наружу не отдаём
-					Object.defineProperty(console, m, {
-						get: function() { return noop; },
-						set: function() {}
-					});
-				});
-			} catch (e) { /* игнорируем */ }
-		})();
+        // ===== РАСШИФРОВКА ПОЧТЫ (Base64, разбито на 3 части) =====
+        (function() {
+            const p1 = "b2J1Y2hheXVzaGNo";
+            const p2 = "aXlzeWFAemFzaGNo";
+            const p3 = "aXNoY2hheXVzaGNoaXlzeWEucnU=";
+            const decoded = atob(p1 + p2 + p3);
 
-		// ===== РАСШИФРОВКА ПОЧТЫ (Base64) =====
-		(function() {
-			// Разбито на 3 части и склеивается в рантайме — поиском по исходнику не найти
-			const p1 = "b2J1Y2hheXVzaGNo";
-			const p2 = "aXlzeWFAemFzaGNo";
-			const p3 = "aXNoY2hheXVzaGNoaXlzeWEucnU=";
-			const decoded = atob(p1 + p2 + p3);
+            const target = document.getElementById('secure-mail');
+            if (target && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(decoded)) {
+                target.appendChild(document.createTextNode(decoded));
+            }
+        })();
+    </script>
 
-			const target = document.getElementById('secure-mail');
-			if (target && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(decoded)) {
-				target.appendChild(document.createTextNode(decoded));
-			}
-		})();
-	</script>	
 </body>
 </html>
