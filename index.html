@@ -169,7 +169,7 @@
             border: 1px solid rgba(255,255,255,0.05);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: space-between; /* Прижимает кнопку к низу */
             overflow: hidden;
         }
 
@@ -342,6 +342,7 @@
         <h2 data-i18n="h2_levels">Наши Учебные Уровни</h2>
         <div class="grid">
 
+            <!-- Карточка 1 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card1_badge">Уровень: Новичок «Боец»</div>
@@ -352,6 +353,7 @@
                 <button class="cert-btn" data-level="1" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
+            <!-- Карточка 2 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card2_badge">Уровень: Средний «Бухгалтер»</div>
@@ -362,6 +364,7 @@
                 <button class="cert-btn" data-level="2" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
+            <!-- Карточка 3 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card3_badge">Уровень: Хардкор «Профессор»</div>
@@ -372,6 +375,7 @@
                 <button class="cert-btn" data-level="3" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
+            <!-- Карточка 4 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card4_badge">Уровень: Босс «Аспирант»</div>
@@ -382,6 +386,7 @@
                 <button class="cert-btn" data-level="4" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
+            <!-- Карточка 5 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card5_badge">Уровень: Киборг «Медик»</div>
@@ -392,6 +397,7 @@
                 <button class="cert-btn" data-level="5" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
+            <!-- Карточка 6 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card6_badge">Уровень: Финал «Безумие»</div>
@@ -411,7 +417,6 @@
         <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.6;" data-i18n="footer_copy">&copy; 2026 Школа «Защищающийся Иностранец». Все челюсти застрахованы.</p>
     </footer>
 
-    <!-- Модальное окно сертификата (теперь ДО скриптов) -->
     <div id="certModal" class="modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
