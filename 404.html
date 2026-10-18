@@ -85,7 +85,7 @@
             animation: pulse 2s infinite;
         }
 
-        /* Вот тут мы добавляем плавность для самой иконки */
+        /* Плавность для самой иконки */
         .shield-icon i {
             display: inline-block; 
             transition: transform 0.1s linear;
@@ -332,7 +332,7 @@
     <header>
         <button class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
 
-        <!-- Обратите внимание: id="mainShield" теперь висит на самой иконке <i> -->
+        <!-- id теперь на иконке <i> -->
         <div class="shield-icon">
             <i class="fa-solid fa-shield-halved" id="mainShield"></i>
         </div>
@@ -351,7 +351,6 @@
         <h2 data-i18n="h2_levels">Наши Учебные Уровни</h2>
         <div class="grid">
 
-            <!-- Карточка 1 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card1_badge">Уровень: Новичок «Боец»</div>
@@ -362,7 +361,6 @@
                 <button class="cert-btn" data-level="1" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
-            <!-- Карточка 2 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card2_badge">Уровень: Средний «Бухгалтер»</div>
@@ -373,7 +371,6 @@
                 <button class="cert-btn" data-level="2" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
-            <!-- Карточка 3 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card3_badge">Уровень: Хардкор «Профессор»</div>
@@ -384,7 +381,6 @@
                 <button class="cert-btn" data-level="3" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
-            <!-- Карточка 4 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card4_badge">Уровень: Босс «Аспирант»</div>
@@ -395,7 +391,6 @@
                 <button class="cert-btn" data-level="4" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
-            <!-- Карточка 5 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card5_badge">Уровень: Киборг «Медик»</div>
@@ -406,7 +401,6 @@
                 <button class="cert-btn" data-level="5" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
-            <!-- Карточка 6 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card6_badge">Уровень: Финал «Безумие»</div>
@@ -688,4 +682,41 @@
                 ctx.font = 'bold 13px Montserrat, sans-serif';
                 ctx.fillText('ВЫВИХ', 0, -10);
                 ctx.font = 'bold 10px Montserrat, sans-serif';
-                ctx.fillText('ПОДТВЕРЖДЕН', 0,
+                ctx.fillText('ПОДТВЕРЖДЕН', 0, 10);
+                ctx.restore();
+
+                const link = document.createElement('a');
+                link.download = `certificate-${name}-${currentLevel}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                modal.style.display = 'none';
+            });
+        })();
+
+        // ===== СЛЕЖЕНИЕ ЗА КУРСОРОМ =====
+        (function() {
+            const shield = document.getElementById('mainShield');
+            if (!shield) return;
+
+            if (window.matchMedia('(pointer: fine)').matches) {
+                document.addEventListener('mousemove', function(e) {
+                    const rect = shield.getBoundingClientRect();
+                    const shieldX = rect.left + rect.width / 2;
+                    const shieldY = rect.top + rect.height / 2;
+                    
+                    const angle = Math.atan2(e.clientY - shieldY, e.clientX - shieldX);
+                    const angleDeg = (angle * 180) / Math.PI;
+                    
+                    shield.style.transform = `rotate(${angleDeg + 90}deg)`;
+                });
+                
+                document.addEventListener('mouseleave', function() {
+                    shield.style.transform = `rotate(0deg)`;
+                });
+            }
+        })();
+    </script>
+
+</body>
+</html>
