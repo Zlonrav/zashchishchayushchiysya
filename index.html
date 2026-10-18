@@ -83,6 +83,8 @@
             color: var(--accent);
             margin-bottom: 1.5rem;
             animation: pulse 2s infinite;
+            transition: transform 0.1s linear; 
+            will-change: transform;
         }
 
         @keyframes pulse {
@@ -324,7 +326,7 @@
     <header>
         <button class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
 
-        <div class="shield-icon">
+        <div class="shield-icon" id="mainShield">
             <i class="fa-solid fa-shield-halved"></i>
         </div>
 
@@ -704,6 +706,37 @@
 
                 modal.style.display = 'none';
             });
+        })();
+        // ===== СЛЕЖЕНИЕ ЗА КУРСОРОМ =====
+        (function() {
+            const shield = document.getElementById('mainShield');
+            if (!shield) return;
+
+            // Проверяем, есть ли у устройства курсор (чтобы не ломать мобильные)
+            if (window.matchMedia('(pointer: fine)').matches) {
+                
+                document.addEventListener('mousemove', function(e) {
+                    const rect = shield.getBoundingClientRect();
+                    
+                    // Находим центр щита
+                    const shieldX = rect.left + rect.width / 2;
+                    const shieldY = rect.top + rect.height / 2;
+                    
+                    // Вычисляем угол между центром щита и курсором
+                    const angle = Math.atan2(e.clientY - shieldY, e.clientX - shieldX);
+                    const angleDeg = (angle * 180) / Math.PI;
+                    
+                    // Щит (если он смотрит вправо по умолчанию) 
+                    // будет поворачиваться к курсору. 
+                    // Если он смотрит вверх, добавьте +90 к angleDeg.
+                    shield.style.transform = `rotate(${angleDeg + 90}deg)`;
+                });
+                
+                // Плавный возврат в исходное положение, если мышь ушла за пределы окна
+                document.addEventListener('mouseleave', function() {
+                    shield.style.transform = `rotate(0deg)`;
+                });
+            }
         })();
     </script>
 
