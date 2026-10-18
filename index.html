@@ -83,8 +83,12 @@
             color: var(--accent);
             margin-bottom: 1.5rem;
             animation: pulse 2s infinite;
-            transition: transform 0.1s linear; 
-            will-change: transform;
+        }
+
+        /* Вот тут мы добавляем плавность для самой иконки */
+        .shield-icon i {
+            display: inline-block; 
+            transition: transform 0.1s linear;
         }
 
         @keyframes pulse {
@@ -134,6 +138,8 @@
             box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
             text-transform: uppercase;
             letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
         }
 
         .cta-btn:hover {
@@ -171,7 +177,7 @@
             border: 1px solid rgba(255,255,255,0.05);
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Прижимает кнопку к низу */
+            justify-content: space-between;
             overflow: hidden;
         }
 
@@ -326,8 +332,9 @@
     <header>
         <button class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
 
-        <div class="shield-icon" id="mainShield">
-            <i class="fa-solid fa-shield-halved"></i>
+        <!-- Обратите внимание: id="mainShield" теперь висит на самой иконке <i> -->
+        <div class="shield-icon">
+            <i class="fa-solid fa-shield-halved" id="mainShield"></i>
         </div>
 
         <h1>
@@ -433,20 +440,20 @@
 
     <script>
         // ===== ЗАЩИТА ОТ КОПИРОВАНИЯ =====
-        //document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
 
-         //document.addEventListener('keydown', function(e) {
-         //    if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); return false; }
-          //   const blockedCtrl = ['u','U','s','S','c','C','a','A','p','P','Г','г','Ы','ы','С','с','Ф','ф','З','з'];
-           //  if (e.ctrlKey && !e.shiftKey && blockedCtrl.includes(e.key)) { e.preventDefault(); return false; }
-           //  const blockedCtrlShift = ['i','I','j','J','c','C','k','K','Ш','ш','О','о','С','с','Л','л'];
-           //  if (e.ctrlKey && e.shiftKey && blockedCtrlShift.includes(e.key)) { e.preventDefault(); return false; }
-           //  if (e.ctrlKey && e.shiftKey && (e.key === 'Escape' || e.key === 'Esc')) { e.preventDefault(); return false; }
-         //});
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); return false; }
+            const blockedCtrl = ['u','U','s','S','c','C','a','A','p','P','Г','г','Ы','ы','С','с','Ф','ф','З','з'];
+            if (e.ctrlKey && !e.shiftKey && blockedCtrl.includes(e.key)) { e.preventDefault(); return false; }
+            const blockedCtrlShift = ['i','I','j','J','c','C','k','K','Ш','ш','О','о','С','с','Л','л'];
+            if (e.ctrlKey && e.shiftKey && blockedCtrlShift.includes(e.key)) { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.shiftKey && (e.key === 'Escape' || e.key === 'Esc')) { e.preventDefault(); return false; }
+        });
 
-         //document.addEventListener('selectstart', function(e) { e.preventDefault(); return false; });
-         //document.addEventListener('dragstart', function(e) { e.preventDefault(); return false; });
-         //document.addEventListener('mousedown', function(e) { if (e.button === 1) { e.preventDefault(); return false; } }); 
+        document.addEventListener('selectstart', function(e) { e.preventDefault(); return false; });
+        document.addEventListener('dragstart', function(e) { e.preventDefault(); return false; });
+        document.addEventListener('mousedown', function(e) { if (e.button === 1) { e.preventDefault(); return false; } });
 
         // ===== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА =====
         (function() {
@@ -606,11 +613,9 @@
                 const title = isEn ? 'SURVIVAL CERTIFICATE' : 'СЕРТИФИКАТ ВЫЖИВШЕГО';
                 const subtitle = isEn ? 'has successfully dislocated their jaw' : 'успешно вывихнул челюсть на уровне';
 
-                // Очистка фона
                 ctx.fillStyle = '#0b0f19';
                 ctx.fillRect(0, 0, 800, 600);
                 
-                // Вспомогательная функция для скругленных рамок
                 const drawRoundRect = (x, y, w, h, r) => {
                     ctx.beginPath();
                     ctx.moveTo(x + r, y);
@@ -621,13 +626,11 @@
                     ctx.closePath();
                 };
 
-                // Внешняя толстая рамка (со скруглением)
                 ctx.strokeStyle = '#ff4757';
                 ctx.lineWidth = 12;
                 drawRoundRect(20, 20, 760, 560, 24);
                 ctx.stroke();
 
-                // Внутренняя тонкая рамка (со скруглением)
                 ctx.strokeStyle = 'rgba(255, 71, 87, 0.4)';
                 ctx.lineWidth = 2;
                 drawRoundRect(40, 40, 720, 520, 16);
@@ -635,110 +638,54 @@
 
                 ctx.textAlign = 'center';
                 
-                // Щит со свечением
                 ctx.shadowColor = '#ff4757';
                 ctx.shadowBlur = 20;
                 ctx.font = '70px serif';
                 ctx.fillText('🛡️', 400, 130);
                 ctx.shadowBlur = 0;
 
-                // Заголовок
                 ctx.fillStyle = '#ffffff';
                 ctx.font = '900 32px Montserrat, sans-serif';
                 ctx.fillText(title, 400, 200);
 
-                // Имя
                 ctx.fillStyle = '#ff4757';
                 ctx.font = '900 56px Montserrat, sans-serif';
                 ctx.fillText(name, 400, 290);
 
-                // Подзаголовок
                 ctx.fillStyle = '#a4b0be';
                 ctx.font = '400 18px Montserrat, sans-serif';
                 ctx.fillText(subtitle, 400, 340);
 
-                // Уровень
                 ctx.fillStyle = '#ffffff';
                 ctx.font = '700 26px Montserrat, sans-serif';
                 ctx.fillText(levelText, 400, 390);
 
-                // Дата
                 const date = new Date().toLocaleDateString(isEn ? 'en-US' : 'ru-RU');
                 ctx.fillStyle = '#a4b0be';
                 ctx.font = '400 16px Montserrat, sans-serif';
-                ctx.fillText((isEn ? 'Date: ' : 'Дата: ') + date, 400, 470); // Сдвинули левее, чтобы не мешала печати
+                ctx.fillText((isEn ? 'Date: ' : 'Дата: ') + date, 400, 470);
 
-                // Сайт
                 ctx.fillStyle = '#ff4757';
                 ctx.font = '700 18px Montserrat, sans-serif';
-                ctx.fillText('zashchishchayushchiysya.ru', 400, 510); // Сдвинули левее
+                ctx.fillText('zashchishchayushchiysya.ru', 400, 510);
 
-                // --- Рисуем "печать" ---
                 ctx.save();
-                ctx.translate(650, 460); // Подняли печать чуть выше
+                ctx.translate(650, 460);
                 ctx.rotate(-15 * Math.PI / 180); 
                 
-                // Круг печати (сделали радиус больше)
                 ctx.beginPath();
                 ctx.arc(0, 0, 65, 0, 2 * Math.PI); 
                 ctx.strokeStyle = 'rgba(255, 71, 87, 0.7)';
                 ctx.lineWidth = 4;
                 ctx.stroke();
                 
-                // Внутренний круг
                 ctx.beginPath();
                 ctx.arc(0, 0, 56, 0, 2 * Math.PI);
                 ctx.lineWidth = 1;
                 ctx.stroke();
 
-                // Текст внутри печати (уменьшили шрифт и добавили переносы)
                 ctx.fillStyle = 'rgba(255, 71, 87, 0.8)';
                 ctx.font = 'bold 13px Montserrat, sans-serif';
                 ctx.fillText('ВЫВИХ', 0, -10);
                 ctx.font = 'bold 10px Montserrat, sans-serif';
-                ctx.fillText('ПОДТВЕРЖДЕН', 0, 10);
-                ctx.restore();
-
-                const link = document.createElement('a');
-                link.download = `certificate-${name}-${currentLevel}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-
-                modal.style.display = 'none';
-            });
-        })();
-        // ===== СЛЕЖЕНИЕ ЗА КУРСОРОМ =====
-        (function() {
-            const shield = document.getElementById('mainShield');
-            if (!shield) return;
-
-            // Проверяем, есть ли у устройства курсор (чтобы не ломать мобильные)
-            if (window.matchMedia('(pointer: fine)').matches) {
-                
-                document.addEventListener('mousemove', function(e) {
-                    const rect = shield.getBoundingClientRect();
-                    
-                    // Находим центр щита
-                    const shieldX = rect.left + rect.width / 2;
-                    const shieldY = rect.top + rect.height / 2;
-                    
-                    // Вычисляем угол между центром щита и курсором
-                    const angle = Math.atan2(e.clientY - shieldY, e.clientX - shieldX);
-                    const angleDeg = (angle * 180) / Math.PI;
-                    
-                    // Щит (если он смотрит вправо по умолчанию) 
-                    // будет поворачиваться к курсору. 
-                    // Если он смотрит вверх, добавьте +90 к angleDeg.
-                    shield.style.transform = `rotate(${angleDeg + 90}deg)`;
-                });
-                
-                // Плавный возврат в исходное положение, если мышь ушла за пределы окна
-                document.addEventListener('mouseleave', function() {
-                    shield.style.transform = `rotate(0deg)`;
-                });
-            }
-        })();
-    </script>
-
-</body>
-</html>
+                ctx.fillText('ПОДТВЕРЖДЕН', 0,
