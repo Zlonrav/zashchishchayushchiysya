@@ -85,12 +85,6 @@
             animation: pulse 2s infinite;
         }
 
-        /* Плавность для самой иконки */
-        .shield-icon i {
-            display: inline-block; 
-            transition: transform 0.1s linear;
-        }
-
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -332,9 +326,8 @@
     <header>
         <button class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
 
-        <!-- id теперь на иконке <i> -->
         <div class="shield-icon">
-            <i class="fa-solid fa-shield-halved" id="mainShield"></i>
+            <i class="fa-solid fa-shield-halved"></i>
         </div>
 
         <h1>
@@ -692,29 +685,6 @@
 
                 modal.style.display = 'none';
             });
-        })();
-
-        // ===== СЛЕЖЕНИЕ ЗА КУРСОРОМ =====
-        (function() {
-            const shield = document.getElementById('mainShield');
-            if (!shield) return;
-
-            if (window.matchMedia('(pointer: fine)').matches) {
-                document.addEventListener('mousemove', function(e) {
-                    const rect = shield.getBoundingClientRect();
-                    const shieldX = rect.left + rect.width / 2;
-                    const shieldY = rect.top + rect.height / 2;
-                    
-                    const angle = Math.atan2(e.clientY - shieldY, e.clientX - shieldX);
-                    const angleDeg = (angle * 180) / Math.PI;
-                    
-                    shield.style.transform = `rotate(${angleDeg + 90}deg)`;
-                });
-                
-                document.addEventListener('mouseleave', function() {
-                    shield.style.transform = `rotate(0deg)`;
-                });
-            }
         })();
     </script>
 
