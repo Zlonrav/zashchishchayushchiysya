@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Школа русского языка «Защищающийся Иностранец»</title>
 
+    <!-- ВАЖНО: Эта строка нужна, чтобы сайт не ломался при заходе на /en -->
+    <base href="/">
+
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🛡️%3C/text%3E%3C/svg%3E">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,7 +53,6 @@
         }
 
         /* ===== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА ===== */
-        /* position: absolute внутри header -> уезжает со скроллом */
         .lang-toggle {
             position: absolute;
             top: 1.5rem;
@@ -256,7 +258,7 @@
 
     <!-- Главный экран -->
     <header>
-        <!-- Переключатель языка (position: absolute -> уходит со скроллом) -->
+        <!-- Переключатель языка -->
         <button class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
 
         <div class="shield-icon">
@@ -358,7 +360,7 @@
         document.addEventListener('dragstart', function(e) { e.preventDefault(); return false; });
         document.addEventListener('mousedown', function(e) { if (e.button === 1) { e.preventDefault(); return false; } });
 
-        // ===== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА =====
+        // ===== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА (URL + LocalStorage) =====
         (function() {
             const translations = {
                 ru: {
@@ -410,8 +412,19 @@
                 en: 'School of Russian Language «Defending Foreigner»'
             };
 
-            let lang = localStorage.getItem('lang') || 'ru';
+            // 1. Определяем язык из URL или localStorage
+            let lang = 'ru';
+            const path = window.location.pathname;
 
+            if (path.startsWith('/en')) {
+                lang = 'en';
+            } else if (path.startsWith('/ru')) {
+                lang = 'ru';
+            } else {
+                lang = localStorage.getItem('lang') || 'ru';
+            }
+
+            // 2. Применяем язык
             function applyLang(l) {
                 document.querySelectorAll('[data-i18n]').forEach(function(el) {
                     const key = el.getAttribute('data-i18n');
@@ -426,10 +439,28 @@
 
             applyLang(lang);
 
+            // 3. Клик по кнопке
             document.getElementById('langToggle').addEventListener('click', function() {
                 lang = (lang === 'ru') ? 'en' : 'ru';
                 localStorage.setItem('lang', lang);
+                
+                // Меняем URL без перезагрузки
+                const newPath = '/' + lang;
+                window.history.pushState({}, '', newPath);
+
                 applyLang(lang);
+            });
+
+            // 4. Обработка кнопки "Назад" в браузере
+            window.addEventListener('popstate', function() {
+                const currentPath = window.location.pathname;
+                if (currentPath.startsWith('/en') && lang !== 'en') {
+                    lang = 'en'; applyLang(lang);
+                } else if (currentPath.startsWith('/ru') && lang !== 'ru') {
+                    lang = 'ru'; applyLang(lang);
+                } else if (currentPath === '/' && lang !== 'ru') {
+                    lang = 'ru'; applyLang(lang);
+                }
             });
         })();
 
