@@ -664,12 +664,12 @@
                 const date = new Date().toLocaleDateString(isEn ? 'en-US' : 'ru-RU');
                 ctx.fillStyle = '#a4b0be';
                 ctx.font = '400 16px Montserrat, sans-serif';
-                ctx.fillText((isEn ? 'Date: ' : 'Дата: ') + date, 360, 470); // Сдвинули левее, чтобы не мешала печати
+                ctx.fillText((isEn ? 'Date: ' : 'Дата: ') + date, 400, 470); // Сдвинули левее, чтобы не мешала печати
 
                 // Сайт
                 ctx.fillStyle = '#ff4757';
                 ctx.font = '700 18px Montserrat, sans-serif';
-                ctx.fillText('zashchishchayushchiysya.ru', 360, 510); // Сдвинули левее
+                ctx.fillText('zashchishchayushchiysya.ru', 400, 510); // Сдвинули левее
 
                 // --- Рисуем "печать" ---
                 ctx.save();
@@ -698,7 +698,7 @@
                 ctx.restore();
 
                 const link = document.createElement('a');
-                link.download = `certificate-${currentLevel}.png`;
+                link.download = `certificate-${name}-${currentLevel}.png`;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
 
