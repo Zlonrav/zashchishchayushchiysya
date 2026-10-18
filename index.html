@@ -604,42 +604,84 @@
                 const title = isEn ? 'SURVIVAL CERTIFICATE' : 'СЕРТИФИКАТ ВЫЖИВШЕГО';
                 const subtitle = isEn ? 'has successfully dislocated their jaw' : 'успешно вывихнул челюсть на уровне';
 
+                // Очистка фона (темно-синий)
                 ctx.fillStyle = '#0b0f19';
                 ctx.fillRect(0, 0, 800, 600);
                 
+                // Внешняя толстая рамка
                 ctx.strokeStyle = '#ff4757';
-                ctx.lineWidth = 10;
+                ctx.lineWidth = 12;
                 ctx.strokeRect(20, 20, 760, 560);
+
+                // Внутренняя тонкая рамка
+                ctx.strokeStyle = 'rgba(255, 71, 87, 0.4)';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(40, 40, 720, 520);
 
                 ctx.textAlign = 'center';
                 
-                ctx.font = '60px serif';
-                ctx.fillText('🛡️', 400, 120);
+                // Щит со свечением (рисуем тень)
+                ctx.shadowColor = '#ff4757';
+                ctx.shadowBlur = 20;
+                ctx.font = '70px serif';
+                ctx.fillText('🛡️', 400, 130);
+                ctx.shadowBlur = 0; // Сбрасываем тень
 
+                // Заголовок
                 ctx.fillStyle = '#ffffff';
-                ctx.font = '900 36px Montserrat, sans-serif';
-                ctx.fillText(title, 400, 190);
+                ctx.font = '900 32px Montserrat, sans-serif';
+                ctx.fillText(title, 400, 200);
 
+                // Имя (самый крупный элемент)
                 ctx.fillStyle = '#ff4757';
-                ctx.font = '900 48px Montserrat, sans-serif';
-                ctx.fillText(name, 400, 280);
+                ctx.font = '900 56px Montserrat, sans-serif';
+                ctx.fillText(name, 400, 290);
 
-                ctx.fillStyle = '#a4b0be';
-                ctx.font = '400 20px Montserrat, sans-serif';
-                ctx.fillText(subtitle, 400, 330);
-
-                ctx.fillStyle = '#ffffff';
-                ctx.font = '700 28px Montserrat, sans-serif';
-                ctx.fillText(levelText, 400, 380);
-
-                const date = new Date().toLocaleDateString(isEn ? 'en-US' : 'ru-RU');
+                // Подзаголовок
                 ctx.fillStyle = '#a4b0be';
                 ctx.font = '400 18px Montserrat, sans-serif';
-                ctx.fillText((isEn ? 'Date: ' : 'Дата: ') + date, 400, 480);
-                
+                ctx.fillText(subtitle, 400, 340);
+
+                // Уровень
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '700 26px Montserrat, sans-serif';
+                ctx.fillText(levelText, 400, 390);
+
+                // Дата
+                const date = new Date().toLocaleDateString(isEn ? 'en-US' : 'ru-RU');
+                ctx.fillStyle = '#a4b0be';
+                ctx.font = '400 16px Montserrat, sans-serif';
+                ctx.fillText((isEn ? 'Date: ' : 'Дата: ') + date, 400, 470);
+
+                // Сайт
                 ctx.fillStyle = '#ff4757';
-                ctx.font = '700 20px Montserrat, sans-serif';
-                ctx.fillText('zashchishchayushchiysya.ru', 400, 520);
+                ctx.font = '700 18px Montserrat, sans-serif';
+                ctx.fillText('zashchishchayushchiysya.ru', 400, 510);
+
+                // --- Рисуем "печать" в правом нижнем углу ---
+                ctx.save();
+                ctx.translate(650, 480); // Позиция печати
+                ctx.rotate(-15 * Math.PI / 180); // Легкий наклон
+                
+                // Круг печати
+                ctx.beginPath();
+                ctx.arc(0, 0, 50, 0, 2 * Math.PI);
+                ctx.strokeStyle = 'rgba(255, 71, 87, 0.6)';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+                
+                // Внутренний круг
+                ctx.beginPath();
+                ctx.arc(0, 0, 42, 0, 2 * Math.PI);
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                // Текст внутри печати
+                ctx.fillStyle = 'rgba(255, 71, 87, 0.6)';
+                ctx.font = 'bold 12px Montserrat, sans-serif';
+                ctx.fillText('ВЫВИХ', 0, -5);
+                ctx.fillText('ПОДТВЕРЖДЕН', 0, 12);
+                ctx.restore();
 
                 const link = document.createElement('a');
                 link.download = `certificate-${currentLevel}.png`;
