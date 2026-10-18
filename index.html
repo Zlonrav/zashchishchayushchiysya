@@ -598,41 +598,54 @@
             window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
 
             genBtn.addEventListener('click', function() {
-                const name = nameInput.value.trim() || 'Иностранец';
+                const name = nameInput.value.trim() || (document.documentElement.lang === 'en' ? 'Foreigner' : 'Иностранец');
                 const isEn = document.documentElement.lang === 'en';
                 const levelText = levelNames[currentLevel][isEn ? 'en' : 'ru'];
                 const title = isEn ? 'SURVIVAL CERTIFICATE' : 'СЕРТИФИКАТ ВЫЖИВШЕГО';
                 const subtitle = isEn ? 'has successfully dislocated their jaw' : 'успешно вывихнул челюсть на уровне';
 
-                // Очистка фона (темно-синий)
+                // Очистка фона
                 ctx.fillStyle = '#0b0f19';
                 ctx.fillRect(0, 0, 800, 600);
                 
-                // Внешняя толстая рамка
+                // Вспомогательная функция для скругленных рамок
+                const drawRoundRect = (x, y, w, h, r) => {
+                    ctx.beginPath();
+                    ctx.moveTo(x + r, y);
+                    ctx.arcTo(x + w, y, x + w, y + h, r);
+                    ctx.arcTo(x + w, y + h, x, y + h, r);
+                    ctx.arcTo(x, y + h, x, y, r);
+                    ctx.arcTo(x, y, x + w, y, r);
+                    ctx.closePath();
+                };
+
+                // Внешняя толстая рамка (со скруглением)
                 ctx.strokeStyle = '#ff4757';
                 ctx.lineWidth = 12;
-                ctx.strokeRect(20, 20, 760, 560);
+                drawRoundRect(20, 20, 760, 560, 24);
+                ctx.stroke();
 
-                // Внутренняя тонкая рамка
+                // Внутренняя тонкая рамка (со скруглением)
                 ctx.strokeStyle = 'rgba(255, 71, 87, 0.4)';
                 ctx.lineWidth = 2;
-                ctx.strokeRect(40, 40, 720, 520);
+                drawRoundRect(40, 40, 720, 520, 16);
+                ctx.stroke();
 
                 ctx.textAlign = 'center';
                 
-                // Щит со свечением (рисуем тень)
+                // Щит со свечением
                 ctx.shadowColor = '#ff4757';
                 ctx.shadowBlur = 20;
                 ctx.font = '70px serif';
                 ctx.fillText('🛡️', 400, 130);
-                ctx.shadowBlur = 0; // Сбрасываем тень
+                ctx.shadowBlur = 0;
 
                 // Заголовок
                 ctx.fillStyle = '#ffffff';
                 ctx.font = '900 32px Montserrat, sans-serif';
                 ctx.fillText(title, 400, 200);
 
-                // Имя (самый крупный элемент)
+                // Имя
                 ctx.fillStyle = '#ff4757';
                 ctx.font = '900 56px Montserrat, sans-serif';
                 ctx.fillText(name, 400, 290);
@@ -651,36 +664,37 @@
                 const date = new Date().toLocaleDateString(isEn ? 'en-US' : 'ru-RU');
                 ctx.fillStyle = '#a4b0be';
                 ctx.font = '400 16px Montserrat, sans-serif';
-                ctx.fillText((isEn ? 'Date: ' : 'Дата: ') + date, 400, 470);
+                ctx.fillText((isEn ? 'Date: ' : 'Дата: ') + date, 360, 470); // Сдвинули левее, чтобы не мешала печати
 
                 // Сайт
                 ctx.fillStyle = '#ff4757';
                 ctx.font = '700 18px Montserrat, sans-serif';
-                ctx.fillText('zashchishchayushchiysya.ru', 400, 510);
+                ctx.fillText('zashchishchayushchiysya.ru', 360, 510); // Сдвинули левее
 
-                // --- Рисуем "печать" в правом нижнем углу ---
+                // --- Рисуем "печать" ---
                 ctx.save();
-                ctx.translate(650, 480); // Позиция печати
-                ctx.rotate(-15 * Math.PI / 180); // Легкий наклон
+                ctx.translate(650, 460); // Подняли печать чуть выше
+                ctx.rotate(-15 * Math.PI / 180); 
                 
-                // Круг печати
+                // Круг печати (сделали радиус больше)
                 ctx.beginPath();
-                ctx.arc(0, 0, 50, 0, 2 * Math.PI);
-                ctx.strokeStyle = 'rgba(255, 71, 87, 0.6)';
+                ctx.arc(0, 0, 65, 0, 2 * Math.PI); 
+                ctx.strokeStyle = 'rgba(255, 71, 87, 0.7)';
                 ctx.lineWidth = 4;
                 ctx.stroke();
                 
                 // Внутренний круг
                 ctx.beginPath();
-                ctx.arc(0, 0, 42, 0, 2 * Math.PI);
+                ctx.arc(0, 0, 56, 0, 2 * Math.PI);
                 ctx.lineWidth = 1;
                 ctx.stroke();
 
-                // Текст внутри печати
-                ctx.fillStyle = 'rgba(255, 71, 87, 0.6)';
-                ctx.font = 'bold 12px Montserrat, sans-serif';
-                ctx.fillText('ВЫВИХ', 0, -5);
-                ctx.fillText('ПОДТВЕРЖДЕН', 0, 12);
+                // Текст внутри печати (уменьшили шрифт и добавили переносы)
+                ctx.fillStyle = 'rgba(255, 71, 87, 0.8)';
+                ctx.font = 'bold 13px Montserrat, sans-serif';
+                ctx.fillText('ВЫВИХ', 0, -10);
+                ctx.font = 'bold 10px Montserrat, sans-serif';
+                ctx.fillText('ПОДТВЕРЖДЕН', 0, 10);
                 ctx.restore();
 
                 const link = document.createElement('a');
