@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Школа русского языка «Защищающийся Иностранец»</title>
 
-    <!-- ВАЖНО: Эта строка нужна, чтобы сайт не ломался при заходе на /en -->
     <base href="/">
 
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🛡️%3C/text%3E%3C/svg%3E">
@@ -52,7 +51,6 @@
             position: relative;
         }
 
-        /* ===== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА ===== */
         .lang-toggle {
             position: absolute;
             top: 1.5rem;
@@ -85,6 +83,12 @@
             color: var(--accent);
             margin-bottom: 1.5rem;
             animation: pulse 2s infinite;
+        }
+
+        /* Вот тут мы добавляем плавность для самой иконки */
+        .shield-icon i {
+            display: inline-block; 
+            transition: transform 0.1s linear;
         }
 
         @keyframes pulse {
@@ -134,6 +138,8 @@
             box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
             text-transform: uppercase;
             letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
         }
 
         .cta-btn:hover {
@@ -219,6 +225,73 @@
             font-size: 0.95rem;
         }
 
+        .cert-btn {
+            margin-top: 1.5rem;
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        .cert-btn:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid var(--accent);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        #certName {
+            width: 100%;
+            padding: 0.8rem;
+            margin-top: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0b0f19;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+        }
+        #certName:focus {
+            border-color: var(--accent);
+        }
+
         .no-copy {
             pointer-events: none;
             color: #2ed573;
@@ -256,13 +329,12 @@
 </head>
 <body>
 
-    <!-- Главный экран -->
     <header>
-        <!-- Переключатель языка -->
         <button class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
 
+        <!-- Обратите внимание: id="mainShield" теперь висит на самой иконке <i> -->
         <div class="shield-icon">
-            <i class="fa-solid fa-shield-halved"></i>
+            <i class="fa-solid fa-shield-halved" id="mainShield"></i>
         </div>
 
         <h1>
@@ -275,11 +347,11 @@
         <a href="#levels" class="cta-btn" data-i18n="cta">Пройти тест на вывих языка</a>
     </header>
 
-    <!-- Секция с боссами русского языка -->
     <section class="levels" id="levels">
         <h2 data-i18n="h2_levels">Наши Учебные Уровни</h2>
         <div class="grid">
 
+            <!-- Карточка 1 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card1_badge">Уровень: Новичок «Боец»</div>
@@ -287,8 +359,10 @@
                     <div class="word-translit">zashchishchayushchiysya</div>
                     <p class="word-desc" data-i18n="card1_desc">Наше базовое слово. Если ты смог набрать этот домен в браузере с первого раза без Т9, мы выдадим тебе сертификат выжившего и нальем кваса.</p>
                 </div>
+                <button class="cert-btn" data-level="1" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
+            <!-- Карточка 2 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card2_badge">Уровень: Средний «Бухгалтер»</div>
@@ -296,8 +370,10 @@
                     <div class="word-translit">vyshchityvayushchiysya</div>
                     <p class="word-desc" data-i18n="card2_desc">Комбо-удар по твоим связкам. Буква «Ы» заставит тебя страдать, а идущие подряд «Ч» и «Щ» звучат так, будто у тебя закипел радиатор.</p>
                 </div>
+                <button class="cert-btn" data-level="2" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
+            <!-- Карточка 3 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card3_badge">Уровень: Хардкор «Профессор»</div>
@@ -305,8 +381,10 @@
                     <div class="word-translit">dostoprimechatelnost</div>
                     <p class="word-desc" data-i18n="card3_desc">Ужас любого туриста в Москве. Пока ты договоришь это слово до конца, Красная площадь уже закроется на перерыв.</p>
                 </div>
+                <button class="cert-btn" data-level="3" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
+            <!-- Карточка 4 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card4_badge">Уровень: Босс «Аспирант»</div>
@@ -314,8 +392,10 @@
                     <div class="word-translit">perevyperezashchishchayushchiysya</div>
                     <p class="word-desc" data-i18n="card4_desc">Слово для тех, кто пошел защищать диплом во второй раз, но по дороге встретил филологов. 33 буквы чистой латинской боли.</p>
                 </div>
+                <button class="cert-btn" data-level="4" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
+            <!-- Карточка 5 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card5_badge">Уровень: Киборг «Медик»</div>
@@ -323,8 +403,10 @@
                     <div class="word-translit">rentgenoelektrokardiograficheskogo</div>
                     <p class="word-desc" data-i18n="card5_desc">Слово-тест на объем легких. Читается как заклинание вызова сатаны. Требует три литра воды после прочтения.</p>
                 </div>
+                <button class="cert-btn" data-level="5" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
+            <!-- Карточка 6 -->
             <div class="card">
                 <div>
                     <div class="card-badge" data-i18n="card6_badge">Уровень: Финал «Безумие»</div>
@@ -332,6 +414,7 @@
                     <div class="word-translit">prevysokomnogorassmatrivayushchiy</div>
                     <p class="word-desc" data-i18n="card6_desc">Официальный чемпион Книги рекордов Гиннесса. Если ты скажешь это без запинки, тебя автоматически сделают гражданином РФ и выдадут шапку-ушанку.</p>
                 </div>
+                <button class="cert-btn" data-level="6" data-i18n="cert_btn">Получить сертификат</button>
             </div>
 
         </div>
@@ -342,6 +425,18 @@
         <div class="no-copy" id="secure-mail"></div>
         <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.6;" data-i18n="footer_copy">&copy; 2026 Школа «Защищающийся Иностранец». Все челюсти застрахованы.</p>
     </footer>
+
+    <div id="certModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 data-i18n="cert_modal_title">Ваш сертификат выживания</h3>
+            <p data-i18n="cert_modal_desc" style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.9rem;">Введите ваше имя, чтобы увековечить подвиг:</p>
+            <input type="text" id="certName" placeholder="Иван Иванов" maxlength="25">
+            <button id="generateCertBtn" class="cta-btn" style="margin-top: 1rem; width: 100%;" data-i18n="cert_generate">Сгенерировать и скачать</button>
+        </div>
+    </div>
+
+    <canvas id="certCanvas" width="800" height="600" style="display: none;"></canvas>
 
     <script>
         // ===== ЗАЩИТА ОТ КОПИРОВАНИЯ =====
@@ -360,7 +455,7 @@
         document.addEventListener('dragstart', function(e) { e.preventDefault(); return false; });
         document.addEventListener('mousedown', function(e) { if (e.button === 1) { e.preventDefault(); return false; } });
 
-        // ===== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА (URL + LocalStorage) =====
+        // ===== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА =====
         (function() {
             const translations = {
                 ru: {
@@ -382,7 +477,11 @@
                     card6_badge: 'Уровень: Финал «Безумие»',
                     card6_desc: 'Официальный чемпион Книги рекордов Гиннесса. Если ты скажешь это без запинки, тебя автоматически сделают гражданином РФ и выдадут шапку-ушанку.',
                     footer_text: 'Появились вопросы? Жалобы? Вывихнули челюсть? Пишите нашей службе поддержки:',
-                    footer_copy: '© 2026 Школа «Защищающийся Иностранец». Все челюсти застрахованы.'
+                    footer_copy: '© 2026 Школа «Защищающийся Иностранец». Все челюсти застрахованы.',
+                    cert_btn: 'Получить сертификат',
+                    cert_modal_title: 'Ваш сертификат выживания',
+                    cert_modal_desc: 'Введите имя, чтобы увековечить подвиг:',
+                    cert_generate: 'Скачать PNG'
                 },
                 en: {
                     h1_line1: 'School of Russian Language',
@@ -403,7 +502,11 @@
                     card6_badge: 'Level: Final «Madness»',
                     card6_desc: 'The official Guinness World Records champion. Say it without stumbling and you\'ll automatically become a Russian citizen and be issued an ushanka hat.',
                     footer_text: 'Got questions? Complaints? Dislocated your jaw? Write to our support:',
-                    footer_copy: '© 2026 School «Defending Foreigner». All jaws are insured.'
+                    footer_copy: '© 2026 School «Defending Foreigner». All jaws are insured.',
+                    cert_btn: 'Get Certificate',
+                    cert_modal_title: 'Your Survival Certificate',
+                    cert_modal_desc: 'Enter your name to immortalize the feat:',
+                    cert_generate: 'Download PNG'
                 }
             };
 
@@ -412,7 +515,6 @@
                 en: 'School of Russian Language «Defending Foreigner»'
             };
 
-            // 1. Определяем язык из URL или localStorage
             let lang = 'ru';
             const path = window.location.pathname;
 
@@ -424,7 +526,6 @@
                 lang = localStorage.getItem('lang') || 'ru';
             }
 
-            // 2. Применяем язык
             function applyLang(l) {
                 document.querySelectorAll('[data-i18n]').forEach(function(el) {
                     const key = el.getAttribute('data-i18n');
@@ -439,19 +540,16 @@
 
             applyLang(lang);
 
-            // 3. Клик по кнопке
             document.getElementById('langToggle').addEventListener('click', function() {
                 lang = (lang === 'ru') ? 'en' : 'ru';
                 localStorage.setItem('lang', lang);
                 
-                // Меняем URL без перезагрузки
                 const newPath = '/' + lang;
                 window.history.pushState({}, '', newPath);
 
                 applyLang(lang);
             });
 
-            // 4. Обработка кнопки "Назад" в браузере
             window.addEventListener('popstate', function() {
                 const currentPath = window.location.pathname;
                 if (currentPath.startsWith('/en') && lang !== 'en') {
@@ -464,7 +562,7 @@
             });
         })();
 
-        // ===== РАСШИФРОВКА ПОЧТЫ (Base64, разбито на 3 части) =====
+        // ===== РАСШИФРОВКА ПОЧТЫ =====
         (function() {
             const p1 = "b2J1Y2hheXVzaGNo";
             const p2 = "aXlzeWFAemFzaGNo";
@@ -476,7 +574,118 @@
                 target.appendChild(document.createTextNode(decoded));
             }
         })();
-    </script>
 
-</body>
-</html>
+        // ===== ГЕНЕРАТОР СЕРТИФИКАТОВ =====
+        (function() {
+            const modal = document.getElementById('certModal');
+            const closeBtn = document.querySelector('.close-modal');
+            const nameInput = document.getElementById('certName');
+            const genBtn = document.getElementById('generateCertBtn');
+            const canvas = document.getElementById('certCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            let currentLevel = 1;
+            const levelNames = {
+                1: { ru: 'Новичок «Боец»', en: 'Beginner «Fighter»' },
+                2: { ru: 'Средний «Бухгалтер»', en: 'Intermediate «Accountant»' },
+                3: { ru: 'Хардкор «Профессор»', en: 'Hardcore «Professor»' },
+                4: { ru: 'Босс «Аспирант»', en: 'Boss «PhD Student»' },
+                5: { ru: 'Киборг «Медик»', en: 'Cyborg «Medic»' },
+                6: { ru: 'Финал «Безумие»', en: 'Final «Madness»' }
+            };
+
+            document.querySelectorAll('.cert-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    currentLevel = this.getAttribute('data-level');
+                    modal.style.display = 'flex';
+                    nameInput.value = '';
+                    nameInput.focus();
+                });
+            });
+
+            closeBtn.onclick = () => modal.style.display = 'none';
+            window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+
+            genBtn.addEventListener('click', function() {
+                const name = nameInput.value.trim() || (document.documentElement.lang === 'en' ? 'Foreigner' : 'Иностранец');
+                const isEn = document.documentElement.lang === 'en';
+                const levelText = levelNames[currentLevel][isEn ? 'en' : 'ru'];
+                const title = isEn ? 'SURVIVAL CERTIFICATE' : 'СЕРТИФИКАТ ВЫЖИВШЕГО';
+                const subtitle = isEn ? 'has successfully dislocated their jaw' : 'успешно вывихнул челюсть на уровне';
+
+                ctx.fillStyle = '#0b0f19';
+                ctx.fillRect(0, 0, 800, 600);
+                
+                const drawRoundRect = (x, y, w, h, r) => {
+                    ctx.beginPath();
+                    ctx.moveTo(x + r, y);
+                    ctx.arcTo(x + w, y, x + w, y + h, r);
+                    ctx.arcTo(x + w, y + h, x, y + h, r);
+                    ctx.arcTo(x, y + h, x, y, r);
+                    ctx.arcTo(x, y, x + w, y, r);
+                    ctx.closePath();
+                };
+
+                ctx.strokeStyle = '#ff4757';
+                ctx.lineWidth = 12;
+                drawRoundRect(20, 20, 760, 560, 24);
+                ctx.stroke();
+
+                ctx.strokeStyle = 'rgba(255, 71, 87, 0.4)';
+                ctx.lineWidth = 2;
+                drawRoundRect(40, 40, 720, 520, 16);
+                ctx.stroke();
+
+                ctx.textAlign = 'center';
+                
+                ctx.shadowColor = '#ff4757';
+                ctx.shadowBlur = 20;
+                ctx.font = '70px serif';
+                ctx.fillText('🛡️', 400, 130);
+                ctx.shadowBlur = 0;
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 32px Montserrat, sans-serif';
+                ctx.fillText(title, 400, 200);
+
+                ctx.fillStyle = '#ff4757';
+                ctx.font = '900 56px Montserrat, sans-serif';
+                ctx.fillText(name, 400, 290);
+
+                ctx.fillStyle = '#a4b0be';
+                ctx.font = '400 18px Montserrat, sans-serif';
+                ctx.fillText(subtitle, 400, 340);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '700 26px Montserrat, sans-serif';
+                ctx.fillText(levelText, 400, 390);
+
+                const date = new Date().toLocaleDateString(isEn ? 'en-US' : 'ru-RU');
+                ctx.fillStyle = '#a4b0be';
+                ctx.font = '400 16px Montserrat, sans-serif';
+                ctx.fillText((isEn ? 'Date: ' : 'Дата: ') + date, 400, 470);
+
+                ctx.fillStyle = '#ff4757';
+                ctx.font = '700 18px Montserrat, sans-serif';
+                ctx.fillText('zashchishchayushchiysya.ru', 400, 510);
+
+                ctx.save();
+                ctx.translate(650, 460);
+                ctx.rotate(-15 * Math.PI / 180); 
+                
+                ctx.beginPath();
+                ctx.arc(0, 0, 65, 0, 2 * Math.PI); 
+                ctx.strokeStyle = 'rgba(255, 71, 87, 0.7)';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.arc(0, 0, 56, 0, 2 * Math.PI);
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                ctx.fillStyle = 'rgba(255, 71, 87, 0.8)';
+                ctx.font = 'bold 13px Montserrat, sans-serif';
+                ctx.fillText('ВЫВИХ', 0, -10);
+                ctx.font = 'bold 10px Montserrat, sans-serif';
+                ctx.fillText('ПОДТВЕРЖДЕН', 0,
